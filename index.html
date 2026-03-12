@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Case Study Gamification - Master real-world business decisions through interactive case studies" />
+  <title>CaseIQ – Case Study Gamification</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ LOADING SPINNER ═══════════════════ -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
+    <p class="loading-text">Loading CaseIQ…</p>
+  </div>
+
+  <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+  <nav id="main-nav" class="nav hidden">
+    <div class="nav-container">
+      <a class="nav-logo" href="#" id="nav-logo">
+        <span class="logo-icon">🧠</span>
+        <span class="logo-text">CaseIQ</span>
+      </a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="nav-link" data-view="cases" id="nav-cases">📂 Cases</a></li>
+        <li><a href="#" class="nav-link" data-view="leaderboard" id="nav-leaderboard">🏆 Leaderboard</a></li>
+        <li><a href="#" class="nav-link" data-view="profile" id="nav-profile">👤 Profile</a></li>
+      </ul>
+      <div class="nav-player" id="nav-player">
+        <div class="nav-avatar" id="nav-avatar">A</div>
+        <div class="nav-player-info">
+          <span class="nav-player-name" id="nav-player-name">Player</span>
+          <span class="nav-level-badge" id="nav-level-badge">Lv.1</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ MAIN APP ═══════════════════ -->
+  <main id="app" class="app">
+
+    <!-- ─── VIEW: HOME ─── -->
+    <div id="view-home" class="view active">
+      <div class="particles-container" id="particles"></div>
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-badge animate-fade-in">🎓 Interactive Learning Platform</div>
+          <h1 class="hero-title animate-slide-up">
+            Master Real-World<br />
+            <span class="gradient-text">Business Decisions</span>
+          </h1>
+          <p class="hero-subtitle animate-slide-up delay-1">
+            Navigate complex case studies across Business, Technology, Healthcare, Finance &amp; Leadership. 
+            Earn XP, unlock achievements, and climb the leaderboard.
+          </p>
+          <div class="hero-actions animate-slide-up delay-2">
+            <button class="btn btn-primary btn-lg" id="home-start-btn">
+              🚀 Start Your Journey
+            </button>
+            <button class="btn btn-outline btn-lg" id="home-continue-btn" style="display:none;">
+              ▶ Continue Playing
+            </button>
+          </div>
+          <div class="hero-stats animate-fade-in delay-3" id="hero-stats">
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="stat-cases-count">10</span>
+              <span class="hero-stat-label">Case Studies</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="stat-domains-count">5</span>
+              <span class="hero-stat-label">Domains</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="stat-player-xp">0</span>
+              <span class="hero-stat-label">Your XP</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="stat-player-level">1</span>
+              <span class="hero-stat-label">Your Level</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-cards">
+            <div class="float-card fc-1">📊 Business Strategy</div>
+            <div class="float-card fc-2">💻 Tech Crisis</div>
+            <div class="float-card fc-3">🏥 Healthcare Ethics</div>
+            <div class="float-card fc-4">💰 Finance</div>
+            <div class="float-card fc-5">👑 Leadership</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ─── VIEW: CASES ─── -->
+    <div id="view-cases" class="view">
+      <div class="page-header">
+        <h2 class="page-title">📂 Case Studies</h2>
+        <p class="page-subtitle">Select a case study to begin your challenge</p>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Business">💼 Business</button>
+        <button class="filter-btn" data-filter="Technology">💻 Technology</button>
+        <button class="filter-btn" data-filter="Healthcare">🏥 Healthcare</button>
+        <button class="filter-btn" data-filter="Finance">💰 Finance</button>
+        <button class="filter-btn" data-filter="Leadership">👑 Leadership</button>
+      </div>
+      <div class="cases-grid" id="cases-grid">
+        <!-- Rendered by UI.renderCases() -->
+      </div>
+    </div>
+
+    <!-- ─── VIEW: GAME ─── -->
+    <div id="view-game" class="view">
+      <div class="game-header">
+        <div class="game-meta">
+          <button class="btn btn-ghost btn-sm" id="game-exit-btn">← Exit</button>
+          <div class="game-title-wrap">
+            <span class="game-domain-badge" id="game-domain-badge">Domain</span>
+            <h2 class="game-title" id="game-title">Case Title</h2>
+          </div>
+        </div>
+        <div class="game-hud">
+          <div class="hud-item">
+            <span class="hud-label">Timer</span>
+            <span class="hud-value timer-display" id="game-timer">00:00</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">Score</span>
+            <span class="hud-value" id="game-score">0</span>
+          </div>
+          <div class="hud-item streak-wrap">
+            <span class="hud-label">Streak</span>
+            <span class="hud-value streak-indicator" id="game-streak">0🔥</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-progress-bar">
+        <div class="game-progress-fill" id="game-progress-fill"></div>
+        <span class="game-progress-text" id="game-progress-text">Decision 1 of 4</span>
+      </div>
+      <div class="game-layout">
+        <!-- Left: Context Panel -->
+        <aside class="game-sidebar">
+          <div class="panel glass-card" id="context-panel">
+            <h3 class="panel-title">📋 Background</h3>
+            <p class="panel-body" id="game-background"></p>
+            <div class="stakeholders-section">
+              <h4 class="section-subtitle">👥 Stakeholders</h4>
+              <ul class="stakeholders-list" id="game-stakeholders"></ul>
+            </div>
+            <div class="constraints-section">
+              <h4 class="section-subtitle">⚠️ Constraints</h4>
+              <ul class="constraints-list" id="game-constraints"></ul>
+            </div>
+          </div>
+          <div class="panel glass-card" id="evidence-panel">
+            <h3 class="panel-title">🔍 Evidence</h3>
+            <p class="evidence-hint">Read evidence to gain insight (and a Scholar badge!)</p>
+            <div class="evidence-list" id="evidence-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </aside>
+        <!-- Right: Decision Panel -->
+        <section class="game-main">
+          <div class="decision-card glass-card" id="decision-card">
+            <div class="decision-situation" id="decision-situation"></div>
+            <h3 class="decision-question" id="decision-question"></h3>
+            <div class="options-grid" id="options-grid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+          <div class="feedback-card glass-card hidden" id="feedback-card">
+            <div class="feedback-header">
+              <span class="feedback-icon" id="feedback-icon">✅</span>
+              <h3 class="feedback-title" id="feedback-title">Good Decision</h3>
+              <span class="feedback-points" id="feedback-points">+85 pts</span>
+            </div>
+            <p class="feedback-body" id="feedback-body"></p>
+            <p class="feedback-consequence" id="feedback-consequence"></p>
+            <button class="btn btn-primary" id="next-decision-btn">Next Decision →</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ─── VIEW: RESULTS ─── -->
+    <div id="view-results" class="view">
+      <div class="results-container">
+        <div class="results-header">
+          <div class="results-icon" id="results-icon">🏆</div>
+          <h2 class="results-title" id="results-case-title">Case Complete!</h2>
+          <div class="star-rating" id="results-stars">
+            <span class="star" data-star="1">⭐</span>
+            <span class="star" data-star="2">⭐</span>
+            <span class="star" data-star="3">⭐</span>
+            <span class="star" data-star="4">⭐</span>
+            <span class="star" data-star="5">⭐</span>
+          </div>
+        </div>
+        <div class="results-score-wrap">
+          <div class="results-score-ring">
+            <span class="results-score-value" id="results-score">0</span>
+            <span class="results-score-label">Score</span>
+          </div>
+        </div>
+        <div class="results-stats-row">
+          <div class="result-stat glass-card">
+            <span class="result-stat-icon">✨</span>
+            <span class="result-stat-value" id="results-xp">0</span>
+            <span class="result-stat-label">XP Earned</span>
+          </div>
+          <div class="result-stat glass-card">
+            <span class="result-stat-icon">⏱️</span>
+            <span class="result-stat-value" id="results-time">0:00</span>
+            <span class="result-stat-label">Time Taken</span>
+          </div>
+          <div class="result-stat glass-card">
+            <span class="result-stat-icon">🔥</span>
+            <span class="result-stat-value" id="results-streak">0</span>
+            <span class="result-stat-label">Max Streak</span>
+          </div>
+        </div>
+        <div class="results-xp-breakdown glass-card" id="results-xp-breakdown">
+          <h4 class="breakdown-title">XP Breakdown</h4>
+          <div class="breakdown-list" id="breakdown-list"></div>
+        </div>
+        <div class="results-decisions glass-card">
+          <h4 class="breakdown-title">Your Decisions</h4>
+          <table class="decisions-table" id="decisions-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Decision</th>
+                <th>Choice</th>
+                <th>Points</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody id="decisions-tbody"></tbody>
+          </table>
+        </div>
+        <div class="results-outcome glass-card">
+          <h4 class="breakdown-title">🌟 Outcome</h4>
+          <p id="results-outcome-text"></p>
+          <div class="key-takeaways">
+            <h5>Key Takeaways</h5>
+            <ul id="results-takeaways"></ul>
+          </div>
+        </div>
+        <div class="results-actions">
+          <button class="btn btn-outline" id="results-replay-btn">🔄 Replay</button>
+          <button class="btn btn-primary" id="results-next-btn">Next Case →</button>
+          <button class="btn btn-ghost" id="results-cases-btn">📂 All Cases</button>
+          <button class="btn btn-ghost" id="results-share-btn">📤 Share</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW: LEADERBOARD ─── -->
+    <div id="view-leaderboard" class="view">
+      <div class="page-header">
+        <h2 class="page-title">🏆 Leaderboard</h2>
+        <p class="page-subtitle">Top strategists worldwide</p>
+      </div>
+      <div class="leaderboard-container">
+        <div class="podium" id="leaderboard-podium">
+          <!-- Top 3 rendered by UI -->
+        </div>
+        <div class="leaderboard-table-wrap glass-card">
+          <table class="leaderboard-table" id="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Level</th>
+                <th>XP</th>
+                <th>Cases</th>
+                <th>Avg Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-tbody"></tbody>
+          </table>
+        </div>
+        <div class="player-rank-card glass-card" id="player-rank-card">
+          <span class="your-rank-label">Your Rank</span>
+          <span class="your-rank-value" id="your-rank-value">#–</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW: PROFILE ─── -->
+    <div id="view-profile" class="view">
+      <div class="profile-header glass-card">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="profile-avatar">A</div>
+          <button class="btn btn-ghost btn-sm avatar-change-btn" id="avatar-change-btn">✏️</button>
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-name" id="profile-name">Player</h2>
+          <div class="profile-level-badge" id="profile-level-badge">Lv.1 Novice Analyst</div>
+          <div class="xp-bar-wrap">
+            <div class="xp-bar">
+              <div class="xp-bar-fill" id="xp-bar-fill"></div>
+            </div>
+            <span class="xp-bar-label" id="xp-bar-label">0 / 500 XP</span>
+          </div>
+        </div>
+      </div>
+      <div class="stats-grid" id="stats-grid">
+        <!-- Rendered by UI.renderProfile() -->
+      </div>
+      <div class="profile-section">
+        <h3 class="section-title">📊 Domain Performance</h3>
+        <div class="domain-bars" id="domain-bars"></div>
+      </div>
+      <div class="profile-section">
+        <h3 class="section-title">🏅 Achievements</h3>
+        <div class="achievements-grid" id="achievements-grid">
+          <!-- Rendered by UI.renderProfile() -->
+        </div>
+      </div>
+      <div class="profile-section">
+        <h3 class="section-title">📁 Completed Cases</h3>
+        <div class="completed-cases-list" id="completed-cases-list"></div>
+      </div>
+      <div class="profile-actions">
+        <button class="btn btn-danger btn-sm" id="reset-player-btn">⚠️ Reset Progress</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════ MODAL ═══════════════════ -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal-card glass-card" id="modal-card">
+      <!-- Content injected by UI.showModal() -->
+    </div>
+  </div>
+
+  <!-- Name Input Modal (first-time) -->
+  <div class="modal-overlay hidden" id="name-modal-overlay">
+    <div class="modal-card glass-card name-modal">
+      <div class="modal-logo">🧠</div>
+      <h2 class="modal-title">Welcome to CaseIQ</h2>
+      <p class="modal-subtitle">Master real-world decisions through interactive case studies</p>
+      <form id="name-form" class="name-form">
+        <label for="player-name-input" class="input-label">What should we call you?</label>
+        <input
+          type="text"
+          id="player-name-input"
+          class="text-input"
+          placeholder="Enter your name…"
+          maxlength="24"
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="btn btn-primary btn-full">
+          🚀 Begin My Journey
+        </button>
+      </form>
+      <p class="modal-note">Your progress is saved locally in your browser.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ TOAST CONTAINER ═══════════════════ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ═══════════════════ ACHIEVEMENT POPUP ═══════════════════ -->
+  <div class="achievement-popup hidden" id="achievement-popup">
+    <div class="achievement-popup-inner">
+      <div class="achievement-popup-badge" id="achievement-popup-badge">🏆</div>
+      <div class="achievement-popup-content">
+        <p class="achievement-popup-label">Achievement Unlocked!</p>
+        <p class="achievement-popup-name" id="achievement-popup-name">First Steps</p>
+        <p class="achievement-popup-desc" id="achievement-popup-desc">Complete your first case study</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <script src="js/cases.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/leaderboard.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+/* ═══════════════════════════════════════════
+   responsive.css — CaseIQ Responsive Styles
+   Mobile-first approach
+   ═══════════════════════════════════════════ */
+
+/* ─── Base (mobile < 640px) ─── */
+:root {
+  --nav-height: 60px;
+}
+
+/* Typography scaling — mobile base */
+body {
+  font-size: 15px;
+}
+.hero-title {
+  font-size: clamp(1.8rem, 8vw, 4rem);
+}
+.hero-subtitle {
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+}
+.page-title {
+  font-size: clamp(1.4rem, 5vw, 2rem);
+}
+
+/* Nav — mobile */
+.nav-links {
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  position: absolute;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0.5rem 0;
+  z-index: 999;
+}
+.nav-links.open {
+  display: flex;
+}
+.nav-links .nav-link {
+  padding: 0.85rem 1.5rem;
+  border-radius: 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+.nav-links .nav-link:last-child {
+  border-bottom: none;
+}
+.hamburger {
+  display: flex;
+}
+.nav-player-info {
+  display: none;
+}
+
+/* Cases grid — 1 col mobile */
+.cases-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Game layout — stacked mobile */
+.game-layout {
+  flex-direction: column;
+}
+.game-sidebar {
+  width: 100%;
+  max-width: 100%;
+}
+.game-main {
+  width: 100%;
+}
+.game-hud {
+  gap: 0.5rem;
+}
+.hud-item {
+  padding: 0.3rem 0.5rem;
+}
+.hud-label {
+  display: none;
+}
+
+/* Options grid — 1 col mobile */
+.options-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Results — stacked */
+.results-stats-row {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+.result-stat {
+  padding: 0.75rem 0.5rem;
+}
+
+/* Leaderboard table — scrollable */
+.leaderboard-table-wrap {
+  overflow-x: auto;
+}
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 0.6rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Profile stats grid — 2 col */
+.stats-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Achievements — 3 col mobile */
+.achievements-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Hero visual — hidden on very small */
+.hero-visual {
+  display: none;
+}
+
+/* Floating cards on hero */
+.floating-cards {
+  display: none;
+}
+
+/* Filter bar — scrollable */
+.filter-bar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.25rem;
+}
+.filter-bar::-webkit-scrollbar {
+  height: 3px;
+}
+
+/* Podium — compact mobile */
+.podium {
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.podium-item {
+  min-width: 80px;
+}
+.podium-item:not(.podium-1) {
+  margin-top: 1.5rem;
+}
+
+/* Toast — full width on mobile */
+.toast-container {
+  bottom: 1rem;
+  right: 0.5rem;
+  left: 0.5rem;
+  align-items: stretch;
+}
+.toast {
+  max-width: 100%;
+}
+
+/* Decisions table — scrollable */
+.results-decisions {
+  overflow-x: auto;
+}
+.decisions-table {
+  min-width: 480px;
+}
+
+/* Touch targets */
+.btn, .filter-btn, .nav-link, .option-card, .evidence-item {
+  min-height: 44px;
+}
+.option-card {
+  min-height: 52px;
+}
+
+/* Profile avatar — smaller */
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  font-size: 1.8rem;
+}
+
+/* Hero stats — 2x2 grid */
+.hero-stats {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+/* ─── Small tablet: 480px ─── */
+@media (min-width: 480px) {
+  .hero-visual {
+    display: block;
+  }
+  .floating-cards {
+    display: block;
+  }
+  .achievements-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .hero-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── Tablet: 640px ─── */
+@media (min-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+
+  /* Nav */
+  .hamburger {
+    display: none;
+  }
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    position: static;
+    background: none;
+    border: none;
+    padding: 0;
+    gap: 0.25rem;
+  }
+  .nav-links .nav-link {
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius);
+    border-bottom: none;
+  }
+  .nav-player-info {
+    display: flex;
+  }
+
+  /* Cases grid — 2 col */
+  .cases-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Options — 2 col if ≤2 options */
+  .options-grid.two-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Stats — 3 col */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Achievements — 5 col */
+  .achievements-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  /* Hero */
+  .hero {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  .hero-content {
+    flex: 1;
+  }
+  .hero-visual {
+    flex: 0.7;
+  }
+  .hero-badge,
+  .hero-actions,
+  .hero-stats {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Results stats */
+  .results-stats-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  /* Toast */
+  .toast-container {
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+  .toast {
+    max-width: 340px;
+  }
+
+  /* Podium */
+  .podium {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+  .podium-item:not(.podium-1) {
+    margin-top: 0;
+  }
+}
+
+/* ─── Desktop: 1024px ─── */
+@media (min-width: 1024px) {
+
+  /* Cases grid — 3 col */
+  .cases-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Game — side-by-side */
+  .game-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .game-sidebar {
+    width: 340px;
+    min-width: 280px;
+    max-width: 380px;
+    position: sticky;
+    top: calc(var(--nav-height) + 1rem);
+    max-height: calc(100vh - var(--nav-height) - 2rem);
+    overflow-y: auto;
+  }
+  .game-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Options — 2 col */
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Stats — 4 col */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Achievements — 7 col */
+  .achievements-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+  .floating-cards {
+    display: flex;
+  }
+}
+
+/* ─── Large Desktop: 1280px ─── */
+@media (min-width: 1280px) {
+  .cases-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .game-sidebar {
+    width: 380px;
+  }
+}
+
+/* ─── Extra large: 1536px ─── */
+@media (min-width: 1536px) {
+  .cases-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Dark mode (already dark, just ensure ─── */
+@media (prefers-color-scheme: light) {
+  /* App is always dark themed, override light mode defaults */
+  body {
+    color-scheme: dark;
+  }
+}
+
+/* ─── Print ─── */
+@media print {
+  .nav, .toast-container, .achievement-popup,
+  .modal-overlay, #particles, .hero-visual {
+    display: none !important;
+  }
+  .view {
+    display: block !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+}
